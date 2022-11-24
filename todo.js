@@ -25,12 +25,17 @@ const addTodo = () =>
     if(selected_name.value == '')
         return;
 
-    let date = new Date();
     todos.push({
-        id: '' + date.getMilliseconds(),
+        id: '' + new Date().getTime(),
         name: selected_name.value,
         date: selected_date.value,
     })
+    render();
+}
+
+const deleteTodo = (idToDelete) =>
+{
+    todos = todos.filter(element => element.id != idToDelete);
     render();
 }
 
@@ -52,6 +57,8 @@ const render = () =>
         let delete_button = document.createElement("button");
         delete_button.classList.add('button','delete');
         delete_button.innerText = "delete";
+        delete_button.addEventListener("click", function (){
+            deleteTodo(todo.id);});
         element.append(delete_button);
 
         todolist.append(element);
