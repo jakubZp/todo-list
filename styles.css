@@ -52,6 +52,10 @@ body{
     margin-left: 5px;
 }
 
+.edit{
+    margin-left: 8px;
+}
+
 .delete{
     background-color: rgb(199, 0, 0);
     margin-left: 10px;
