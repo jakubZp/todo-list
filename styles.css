@@ -37,15 +37,35 @@ body{
 
 .todo-list{
     margin-top: 10px;
+    margin-right: 45%;
+}
+
+@media (max-width: 900px)
+{
+    .todo-list{
+        margin-right: 35%;
+    }
+}
+
+@media (max-width: 640px)
+{
+    .todo-list{
+        margin-right: 10%;
+    }
 }
 
 .todo{
     margin-top: 6px;
-    height: 40px;
+    padding: 10px 4px 10px 4px;
     background-color: rgb(8, 177, 223);
+    border-radius: 3px;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: 5fr 1fr 1fr;
     align-items: center;
+
+    /*display: flex;
+    align-items: center;*/
 }
 
 .task-name{
@@ -59,6 +79,7 @@ body{
 .delete{
     background-color: rgb(199, 0, 0);
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 .delete:hover{

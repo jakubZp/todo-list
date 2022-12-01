@@ -2,5 +2,12 @@ Do zrobienia
 1.Wyświetlanie daty po dodaniu nowego zadania(30.11.2022 zamiast 2022-11-30)
 2.Sortowanie zadań wg. daty.
 3.Wyświetlanie kalendarza z zaznaczonymi w nim zadaniami.
-4.Zapisywanie w local storage
-5.Zrobienie struktury siatki "grida" (przyciski równo pod sobą, daty itd.)
++4.Zapisywanie w local storage
++5.Zrobienie struktury siatki "grida" (przyciski równo pod sobą, daty itd.) ; dodawanie wiersza po dodaniu nowego todo (analogicznie usuwanie)
+
++6.Zmienić height todo (responsywność dla długich tasków)
+
+7.Przycisk undo: last_clicked - może obiekt (dane todo = tekst + data)
+8.Checkbox (zaznaczony - zadanie przekreślone i wyszarzone i spada na dół ale ciągle jest, nie usunięte)
+9.MVC (model, view, control)
+10.Settings (zmień wyświetlanie daty (en, pl, ...), ...)
