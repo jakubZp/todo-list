@@ -1,5 +1,4 @@
 let todos;
-let last_clicked;
 
 const savedTodos = JSON.parse(localStorage.getItem("todos"));
 if(Array.isArray(savedTodos))
@@ -9,35 +8,25 @@ else
     {
         id: "id1",
         name: "Do shopping",
-        date: "30.11.2022",
+        date: new Date("2022-11-30T12:00:00.000Z"),
         isEditing: false,
     },
     {
         id: "id2",
         name: "Take a dog for a walk",
-        date: "23.11.2022",
+        date: new Date("2022-11-23T12:00:00.000Z"),
         isEditing: false,
     },
     {
         id: "id3",
         name: "Make an appointment",
-        date: "02.12.2022",
+        date: new Date("2022-12-02T12:00:00.000Z"),
         isEditing: false,
     }]   
         
-
-const dateFormater = (date_input) =>
+const dateFormater = (date) =>
 {
-    let selected_date;
-    if(date_input.value != '')
-    {
-        selected_date = new Date(`${date_input.value}T12:00:00.000Z`);
-        selected_date = selected_date.toLocaleDateString()
-    }
-    else
-        selected_date = '';
-
-    return selected_date;
+    return new Date(date).toLocaleDateString();
 }
 
 const addTodo = () =>
@@ -48,7 +37,7 @@ const addTodo = () =>
     if(selected_name.value == '')
         return;
 
-    let selected_date = dateFormater(date_input);
+    let selected_date = new Date(`${date_input.value}T12:00:00.000Z`);
 
     todos.push({
         id: '' + new Date().getTime(),
@@ -76,15 +65,22 @@ const editTodo = (todo) =>
 const updateTodo = (todo, new_name, new_date) =>
 {
     todo.name = new_name.value;
-    todo.date = dateFormater(new_date);
+    //todo.date = new_date.value;
+    todo.date = new Date(`${new_date.value}T12:00:00.000Z`)
     todo.isEditing = false;
     saveTodos();
     render();
 }
 
-const saveTodos = () =>
-{
+const saveTodos = () =>{
     localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+const sortTodos = (direct) =>
+{
+    todos.sort(function(a,b){
+        return (new Date(a.date).valueOf() * direct) - (new Date(b.date).valueOf() * direct);
+    })
 }
 
 const render = () =>
@@ -122,13 +118,14 @@ const render = () =>
 
         let task_name = document.createElement("span");
         task_name.classList.add('task-name');
-        task_name.innerText = todo.name + " " + todo.date;
+        task_name.innerText = todo.name;
         element.append(task_name);
 
         let task_date = document.createElement("span");
         task_date.classList.add("task-name");
-        task_date.innerText = todo.date;
-        
+        task_date.innerText = dateFormater(todo.date);
+        //task_date.innerText = todo.date;
+        element.append(task_date);
 
         let edit_button = document.createElement("button");  
         edit_button.classList.add("button", "edit");
@@ -151,16 +148,26 @@ const render = () =>
 
 const add_button = document.querySelector(".add");
 add_button.addEventListener("click", addTodo);
+
 const default_button = document.querySelector(".default");
 default_button.addEventListener("click", function(){
     if(confirm("Todo list will be restored to default settings"))
     {
         localStorage.removeItem("todos");
-        window.location.reload();//refresh the page
+        window.location.reload();
         render();
     }
     else
         render();
 });
+
+let direct = 1;
+const sort_button = document.querySelector(".sort");
+sort_button.addEventListener("click", function(){
+    sortTodos(direct);
+    saveTodos();
+    direct *= -1;
+    render();
+})
 
 render();
