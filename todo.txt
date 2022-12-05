@@ -8,7 +8,8 @@ Do zrobienia
 
 3.Wyświetlanie kalendarza z zaznaczonymi w nim zadaniami.
 7.Przycisk undo: last_clicked - może obiekt (dane todo = tekst + data)
-8.Checkbox (zaznaczony - zadanie przekreślone i wyszarzone i spada na dół ale ciągle jest, nie usunięte)
++8.Checkbox (zaznaczony - zadanie przekreślone i wyszarzone i spada na dół ale ciągle jest, nie usunięte)
 9.MVC (model, view, control)
 10.Settings (zmień wyświetlanie daty (en, pl, ...), ...)
 *11.Przenoszenie "todo" dowolnie w liście (góra, dół)
+*12.Możliwość dodania todo bez daty (linia 57 w todo.js to blokuje)

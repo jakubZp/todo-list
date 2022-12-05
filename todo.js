@@ -10,20 +10,36 @@ else
         name: "Do shopping",
         date: new Date("2022-11-30T12:00:00.000Z"),
         isEditing: false,
+        done: false,
     },
     {
         id: "id2",
         name: "Take a dog for a walk",
         date: new Date("2022-11-23T12:00:00.000Z"),
         isEditing: false,
+        done: false,
     },
     {
         id: "id3",
         name: "Make an appointment",
         date: new Date("2022-12-02T12:00:00.000Z"),
         isEditing: false,
+        done: false,
     }]   
         
+/*const isValid = (date) =>
+{
+    if(Object.prototype.toString.call(date === "[object Date]"))
+    {
+        if(!isNaN(date.getTime()))
+            return 1;
+        else
+            return 0;
+    }
+    else
+        return 0;
+}*/
+
 const dateFormater = (date) =>
 {
     return new Date(date).toLocaleDateString();
@@ -34,7 +50,7 @@ const addTodo = () =>
     const selected_name = document.querySelector(".name");
     const date_input = document.querySelector(".date");
 
-    if(selected_name.value == '')
+    if(selected_name.value == '' || date_input.value == '')
         return;
 
     let selected_date = new Date(`${date_input.value}T12:00:00.000Z`);
@@ -44,6 +60,7 @@ const addTodo = () =>
         name: selected_name.value,
         date: selected_date,
         isEditing: false,
+        done: false,
     })
     saveTodos();
     render();
@@ -65,7 +82,6 @@ const editTodo = (todo) =>
 const updateTodo = (todo, new_name, new_date) =>
 {
     todo.name = new_name.value;
-    //todo.date = new_date.value;
     todo.date = new Date(`${new_date.value}T12:00:00.000Z`)
     todo.isEditing = false;
     saveTodos();
@@ -108,10 +124,10 @@ const render = () =>
             accept.classList.add("button", "accept");
             accept.innerText = "accept";
             accept.addEventListener("click", function(){
-                updateTodo(todo, edit_input_name, edit_input_date);
+                if(edit_input_name.value != '' && edit_input_date.value != '')
+                    updateTodo(todo, edit_input_name, edit_input_date); 
             })
             element.append(accept);
-
             todolist.append(element);
             return;
         }
@@ -124,18 +140,55 @@ const render = () =>
         let task_date = document.createElement("span");
         task_date.classList.add("task-name");
         task_date.innerText = dateFormater(todo.date);
-        //task_date.innerText = todo.date;
+        /* if(todo.date === null || todo.date === "Invalid Date" || todo.date === "1970-01-01")
+            task_date.display = "none"; */
+
         element.append(task_date);
 
-        let edit_button = document.createElement("button");  
+        let delete_button = document.createElement("button");//to disable it
+        let edit_button = document.createElement("button"); 
+
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        if(todo.done === true)
+        {
+            checkbox.checked = true;
+            delete_button.disabled = true;
+            edit_button.disabled = true;
+            element.style.backgroundColor = "rgba(8, 177, 223, 0.15";
+        }    
+        else
+        {
+            checkbox.checked = false;
+            delete_button.disabled = false;
+            edit_button.disabled = false;
+            element.style.backgroundColor = "rgb(8, 177, 223)";
+        }
+            
+        element.append(checkbox);
+
+        checkbox.addEventListener("change", e =>{
+            if(e.target.checked === true)
+            {
+                todo.done = true;
+                saveTodos();
+                render();
+            }
+            else
+            {
+                todo.done = false;
+                saveTodos();
+                render();
+            }
+        })
+ 
         edit_button.classList.add("button", "edit");
         edit_button.innerText = "edit";
         edit_button.addEventListener("click", function(){
             editTodo(todo);
         })
         element.append(edit_button);
-
-        let delete_button = document.createElement("button");
+  
         delete_button.classList.add('button','delete');
         delete_button.innerText = "delete";
         delete_button.addEventListener("click", function (){
